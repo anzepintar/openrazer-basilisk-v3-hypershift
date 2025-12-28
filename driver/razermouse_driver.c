@@ -16,6 +16,7 @@
 #include "razermouse_driver.h"
 #include "razercommon.h"
 #include "razerchromacommon.h"
+#include "usb_hid_keys.h"
 
 /*
  * Version Information
@@ -5554,6 +5555,7 @@ static DEVICE_ATTR(hyperpolling_wireless_dongle_unpair,                         
 #define REP4_TILT_R  0x23
 #define REP4_PROFILE 0x50
 #define REP4_SNIPER  0x51
+#define REP4_HYPERSHIFT 0x90
 
 #define BIT_TILT_L 5
 #define BIT_TILT_R 6
@@ -5574,6 +5576,7 @@ static const __u16 rep4_key_codes[] = {
     [REP4_DPI_UP]  = BTN_MOUSE + 8,
     [REP4_DPI_DN]  = BTN_MOUSE + 9,
     [REP4_PROFILE] = BTN_MOUSE + 10,
+    [REP4_HYPERSHIFT] = USB_HID_KEY_F17, /* F17 */
     /* NOTE: Highest legal mouse button is BTN_MOUSE + 15 */
 };
 
@@ -5844,6 +5847,9 @@ static int razer_raw_event(struct hid_device *hdev, struct hid_report *report, u
                     break;
                 case 0x23: // Wheel Right
                     cur_value = 0x6B; // F16
+                    break;
+                case 0x90: // Hypershift
+                    cur_value = 0x6C; // F17
                     break;
                 }
 
